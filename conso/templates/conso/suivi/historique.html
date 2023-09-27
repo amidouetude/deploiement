@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block etatactuel %}
+Historique
+{% endblock etatactuel %}
+
+{% block content %}
+<!-- Formulaire pour consulter l'historique -->
+<h4>Consulter l'historique pour voir la statistique descriptive sur les données de votre consommation générale</h4>
+<form method="post" class="card p-3 mt-2 myform consojour" autocomplete="off">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-7">
+            <div class="row p-2">
+                <label for="date_debut" class="details">Date de début:</label>
+                <input type="date" id="date_debut" name="date_debut" value="{{ mega.date_debut|default:'' }}" required>
+            </div>
+            <div class="row p-2">
+                <label for="date_fin" class="details">Date de fin:</label>
+                <input type="date" id="date_fin" name="date_fin" value="{{ mega.date_fin|default:'' }}" required>
+            </div>
+        </div>
+    </div>
+    <div class="mt-2">
+        <button style="font-size: 15px;" type="submit" class="btn btn-info mb-3">
+            <ion-icon name="stats-chart-outline" class="icon"></ion-icon><i class="fas fa-plus icon"></i>&nbsp;&nbsp; Voir statistique
+        </button>
+        <button style="font-size: 15px;" type="submit" name="download" value="true" class="btn btn-success mb-3">
+            <ion-icon name="arrow-down-circle-outline" class="icon"></ion-icon><i class="fas fa-download icon"></i>&nbsp;&nbsp; Télécharger
+        </button>
+    </div>
+</form>
+
+<!-- Affichage des statistiques -->
+<div class="consojour row">
+    {% if mega.context %}
+        
+            
+            <div class="col-4">
+                <h2>Résultats de l'analyse descriptive</h2>
+                <table class="table table-responsive table-striped table-hover col-9">
+                    <thead class="sticky-top text-white">
+                        <tr>
+                            <th>Statistique</th>
+                            <th>Valeur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Moyenne</td>
+                            <td>{{ mega.context.moyenne }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td>{{ mega.context.total }}</td>
+                        </tr>
+                        <tr>
+                            <td>Minimum</td>
+                            <td>{{ mega.context.min_val }}</td>
+                        </tr>
+                        <tr>
+                            <td>Maximum</td>
+                            <td>{{ mega.context.max_val }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        
+        
+            <div class="col-8">
+                <h2>Interpretations des resultats de l'analyse descriptive</h2>
+                <ul>
+                    <li>La <strong>consommation moyenne</strong> qui vaut {{ mega.context.moyenne }} représente la quantité moyenne d'eau consommée sur la période sélectionnée. Cela peut vous donner une idée générale de la consommation d'eau de votre entreprise.</li>
+                    
+                    <li>La <strong>consommation total :</strong> qui vaut {{ mega.context.total }} est la quantité totale d'eau consommée pendant la période. Il s'agit du montant global de la consommation.</li>
+                    
+                    <li>La <strong>consommation minimum :</strong> qui vaut {{ mega.context.min_val }} représente la valeur minimale de consommation d'eau enregistrée pendant la période. Il peut vous montrer le niveau le plus bas de consommation.</li>
+                    
+                    <li>La <strong>consommation maximum :</strong> qui vaut {{ mega.context.max_val }} est la valeur maximale de consommation d'eau enregistrée. Il peut vous montrer les pics de consommation les plus élevés.</li>
+                </ul>
+            </div>
+
+
+     {% endif %}
+</div>
+
+{% endblock content %}

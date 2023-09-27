@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block etatactuel %}
+Budget
+{% endblock etatactuel %}
+
+{% block content %}
+<h1>Gestion du Budget</h1>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+<div class="consojour">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="sticky-top text-white">
+          <tr>
+              <th>Budget alloué</th>
+              <th>Consommation du mois</th>
+              <th>Montant de la consommation du mois</th>
+              <th>Dépenses totales</th> <!-- Modification du libellé -->
+              <th>Montant des commandes</th> <!-- Modification du libellé -->
+              <th>Reste du budget</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+              <td>{{ montant_budget }}</td>
+              <td>{{ period_consommation }}</td>
+              <td>{{ montant_consommation }}</td>
+              <td>{{ total_depenses }}</td> <!-- Afficher le total des dépenses -->
+              <td>{{ montant_commande }}</td>
+              <td>{{ reste_budget }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<h1>Définition du Budget</h1>
+
+<form action="{% url 'budget' %}" method="post">
+    {% csrf_token %}
+    <label for="budget">Montant alloué pour le mois :</label>
+    <input type="number" name="budget" id="budget">
+    <button type="submit">Définir le budget</button>
+</form>
+
+<h1>Définition des dépenses</h1>
+
+<form action="{% url 'budget' %}" method="post">
+    {% csrf_token %}
+    <label for="montant_commande">Montant de la commande :</label>
+    <input type="number" name="montant_commande" id="montant_commande">
+    <button type="submit">Définir le montant de la commande</button>
+</form>
+
+{% endblock content %}

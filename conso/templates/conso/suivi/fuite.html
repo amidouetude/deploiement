@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block etatactuel %}
+Fuite
+{% endblock etatactuel %}
+
+{% block content %}
+<div class="consojour">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover">
+        <thead class="sticky-top text-white">
+          <tr>
+            <th scope="col" class="col">Nom de la section</th>
+            <th scope="col" class="col text-center">Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for section in sections %}
+          <tr>
+            <td class="col">{{section.nom_section}}</td>
+            <td class="col text-center">
+            <!--  <button type="button" class="btn btn-primary bi bi-grip-vertical">Choisir</button> -->
+                <button type="btn btn-outline-warning"><a href="{% url 'fuite_section' section.id %}">Analyser</a></button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    <div>
+  </div>
+{% endblock content %}
